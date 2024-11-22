@@ -63,7 +63,7 @@ modm::Touch2046<touch::Spi, touch::Cs> touchController;
 
 
 static constexpr size_t buf_size = LV_HOR_RES_MAX * LV_VER_RES_MAX / 8;
-static lv_color_t buf[buf_size];
+static modm_aligned(4) lv_color_t buf[buf_size];
 
 void my_touchpad_read(lv_indev_t*, lv_indev_data_t* data)
 {
@@ -119,7 +119,7 @@ main()
 
 	lv_display_t *disp = lv_display_create(LV_HOR_RES_MAX, LV_VER_RES_MAX);
 	lv_display_set_flush_cb(disp, disp_flush);
-	lv_display_set_buffers(disp, buf, NULL, sizeof(buf), LV_DISPLAY_RENDER_MODE_DIRECT);
+	lv_display_set_buffers(disp, buf, NULL, sizeof(buf), LV_DISPLAY_RENDER_MODE_PARTIAL);
 
 	// Initialize touchscreen driver:
 	lv_indev_t* indev = lv_indev_create();
